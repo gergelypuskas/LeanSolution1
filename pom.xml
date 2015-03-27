@@ -3,11 +3,21 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.leansolution</groupId>
-	<artifactId>LeanSolution1</artifactId>
+	<artifactId>leansolution1</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 
+	<properties>
+		<spring-version>1.0.0.RELEASE</spring-version>
+	</properties>
+	
 	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-aws-context</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
