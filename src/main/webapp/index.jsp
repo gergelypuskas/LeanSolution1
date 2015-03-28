@@ -1,5 +1,15 @@
-<html>
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<title>First Test</title>
+<script src="angular.js"></script>
+<link href="bootstrap.css" rel="stylesheet" />
+<link href="bootstrap-theme.css" rel="stylesheet" />
+</head>
 <body>
-<h2>Hello World :)!</h2>
+	<h2>Hello World :)!</h2>
+	<div class="btn btn-default">{{"AngularJS"}}</div>
+	<div class="btn btn-success">Bootstrap</div>
 </body>
 </html>
+
