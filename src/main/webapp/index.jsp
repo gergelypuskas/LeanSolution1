@@ -9,17 +9,16 @@
 	var storyTodayApp = angular.module("storyTodayApp", []);
 
 	var model = {
-		user : "Wei",
-		stories : [ {
-			description : "We were hiking",
-			liked : false
-		}, {
-			description : "Samanta is having a new boyfriend",
-			liked : false
-		} ],
+		user : "Username",
 		hideNotLiked: false
 	};
 
+	storyTodayApp.run(function($http) {
+		$http.get("story.json").success(function(data) {
+			model.stories = data;
+		});
+	});
+	
 	storyTodayApp.filter("storyListFilter", function() {
 		return function(items, hideNotLiked) {
 			var results = [];
