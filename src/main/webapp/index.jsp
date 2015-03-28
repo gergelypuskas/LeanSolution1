@@ -16,9 +16,22 @@
 		}, {
 			description : "Samanta is having a new boyfriend",
 			liked : false
-		} ]
+		} ],
+		hideNotLiked: false
 	};
 
+	storyTodayApp.filter("storyListFilter", function() {
+		return function(items, hideNotLiked) {
+			var results = [];
+			angular.forEach(items, function(item) {
+				if (item.liked == true || hideNotLiked == false) {
+					results.push(item);
+				}
+			});
+			return results;
+		}
+	});
+	
 	storyTodayApp.controller("StoryListCtrl", function($scope) {
 		$scope.storyListModel = model;
 
@@ -34,13 +47,22 @@
 
 		$scope.likedCountClass = function() {
 			if ($scope.likedCount() > 1) {
-				return  "label-warning";
+				return "label-warning";
 			} else {
 				return "label-success";
 			}
 		}
 
+		$scope.addStory = function(storyText) {
+			$scope.storyListModel.stories.push({
+				description : storyText,
+				liked : false
+			});
+		}
 	});
+	
+
+	
 </script>
 </head>
 <body ng-controller="StoryListCtrl">
@@ -48,15 +70,21 @@
 	<div class="page-header">
 		<h1>
 			{{storyListModel.user}}'s Stories Today! <span
-				class="label label-default" ng-hide="likedCount() == 0" ng-class="likedCountClass()">
-				{{likedCount()}} </span>
+				class="label label-default" ng-hide="likedCount() == 0"
+				ng-class="likedCountClass()"> {{likedCount()}} </span>
 
 		</h1>
+		<div class="checkbox-inline">
+			<label><input type="checkbox" ng-model="storyListModel.hideNotLiked">Hide
+				not liked</label>
+		</div>
 	</div>
+
 	<div class="panel">
 		<div class="input-group">
-			<input class="form-control"> <span class="input-group-btn">
-				<button class="btn btn-default">Tell</button>
+			<input class="form-control" ng-model="storyText"> <span
+				class="input-group-btn">
+				<button class="btn btn-default" ng-click="addStory(storyText)">Tell</button>
 			</span>
 		</div>
 		<table class="table table-striped">
@@ -67,7 +95,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="story in storyListModel.stories">
+				<tr
+					ng-repeat="story in storyListModel.stories | storyListFilter:storyListModel.hideNotLiked | orderBy:'-liked' ">
 					<td>{{story.description}}</td>
 					<td><input type="checkbox" ng-model="story.liked" /></td>
 				</tr>
