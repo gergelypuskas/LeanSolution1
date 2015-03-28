@@ -21,13 +21,37 @@
 
 	storyTodayApp.controller("StoryListCtrl", function($scope) {
 		$scope.storyListModel = model;
+
+		$scope.likedCount = function() {
+			var count = 0;
+			angular.forEach($scope.storyListModel.stories, function(item) {
+				if (item.liked) {
+					count++;
+				}
+			});
+			return count;
+		}
+
+		$scope.likedCountClass = function() {
+			if ($scope.likedCount() > 1) {
+				return  "label-warning";
+			} else {
+				return "label-success";
+			}
+		}
+
 	});
 </script>
 </head>
 <body ng-controller="StoryListCtrl">
 	<!-- <body ng-controller="ToDoCtrl"> -->
 	<div class="page-header">
-		<h1>{{storyListModel.user}}'s Stories Today!</h1>
+		<h1>
+			{{storyListModel.user}}'s Stories Today! <span
+				class="label label-default" ng-hide="likedCount() == 0" ng-class="likedCountClass()">
+				{{likedCount()}} </span>
+
+		</h1>
 	</div>
 	<div class="panel">
 		<div class="input-group">
@@ -45,7 +69,7 @@
 			<tbody>
 				<tr ng-repeat="story in storyListModel.stories">
 					<td>{{story.description}}</td>
-					<td>{{story.liked}}</td>
+					<td><input type="checkbox" ng-model="story.liked" /></td>
 				</tr>
 			</tbody>
 		</table>
